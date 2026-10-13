@@ -1,0 +1,23 @@
+#!/bin/bash
+# Skript väljastab tühja (ainult servadega) ristküliku:
+# esimene ja viimane rida on tärnidest, vahepealsetel ridadel on tärn ainult alguses ja lõpus
+echo -n "Sisesta ridade arv: "
+read read_arv
+echo -n "Sisesta tärnide arv reas: "
+read tarnid
+echo ""
+
+for (( rida = 1; rida <= read_arv; rida++ ))
+do
+    echo -n "$rida. "
+    for (( t = 1; t <= tarnid; t++ ))
+    do
+        if [ $rida -eq 1 ] || [ $rida -eq $read_arv ] || [ $t -eq 1 ] || [ $t -eq $tarnid ]
+        then
+            echo -n "* "
+        else
+            echo -n "  "
+        fi
+    done
+    echo ""
+done
