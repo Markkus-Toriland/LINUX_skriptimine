@@ -1,0 +1,21 @@
+#!/bin/bash
+# Skript küsib kuu numbrit ja väljastab, mis aastaaeg on
+
+echo -n "Sisesta kuu number: "
+read kuu
+
+if [ $kuu -eq 12 -o $kuu -eq 1 -o $kuu -eq 2 ]
+then
+    echo "Praegu on talv"
+elif [ $kuu -ge 3 -a $kuu -le 5 ]
+then
+    echo "Praegu on kevad"
+elif [ $kuu -ge 6 -a $kuu -le 8 ]
+then
+    echo "Praegu on suvi"
+elif [ $kuu -ge 9 -a $kuu -le 11 ]
+then
+    echo "Praegu on sügis"
+else
+    echo "Vigane kuu number! Sisesta number vahemikus 1-12."
+fi
