@@ -1,0 +1,21 @@
+#!/bin/bash
+# Ülesanne 4 täiendus: väljastab 20 esimese täisarvu kohta, kas see on algarv või mitte
+for (( arv=1; arv<=20; arv++ ))
+do
+    if [ $arv -lt 2 ]
+    then
+        echo "$arv - ei ole algarv"
+        continue
+    fi
+    jagaja=2
+    while [ $((arv % jagaja)) -ne 0 ]
+    do
+        jagaja=$((jagaja + 1))
+    done
+    if [ $jagaja -eq $arv ]
+    then
+        echo "$arv - on algarv"
+    else
+        echo "$arv - ei ole algarv"
+    fi
+done
