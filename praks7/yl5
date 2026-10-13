@@ -1,0 +1,20 @@
+#!/bin/bash
+# Skript väljastab paremale joondatud kolmnurga: rea alguses on "o" märgid ja lõpus tärnid
+# Reas on kokku nii mitu märki, kui on ridu; tärnide arv võrdub rea numbriga
+echo -n "Sisesta ridade arv: "
+read read_arv
+echo ""
+
+for (( rida = 1; rida <= read_arv; rida++ ))
+do
+    echo -n "$rida. "
+    for (( o = 1; o <= read_arv - rida; o++ ))
+    do
+        echo -n "o "
+    done
+    for (( t = 1; t <= rida; t++ ))
+    do
+        echo -n "* "
+    done
+    echo ""
+done
