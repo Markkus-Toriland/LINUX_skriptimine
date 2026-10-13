@@ -22,3 +22,14 @@ git remote add skriptimine git@github.com:Markkus-Toriland/LINUX_skriptimine.git
 
 f) git remote kontroll
 git remote -v
+
+põhikasutamine:
+
+a) pane fail jälgimisele:
+git add failinimi
+
+b) lisa kirjeldus muudatuse kohta
+git commit -m "lühikirjelduse lause"
+
+c) lükka muudatused kaugrepositooriumi
+git push -uf skriptimine master
