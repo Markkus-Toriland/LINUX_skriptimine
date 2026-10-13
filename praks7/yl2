@@ -1,0 +1,17 @@
+#!/bin/bash
+# Skript küsib ridade arvu ja tärnide arvu reas ning väljastab vastava ristküliku
+echo -n "Sisesta ridade arv: "
+read read_arv
+echo -n "Sisesta tärnide arv reas: "
+read tarnid
+echo ""
+
+for (( rida = 1; rida <= read_arv; rida++ ))
+do
+    echo -n "$rida. "
+    for (( t = 1; t <= tarnid; t++ ))
+    do
+        echo -n "* "
+    done
+    echo ""
+done
