@@ -1,0 +1,17 @@
+#!/bin/bash
+# Skript kontrollib käsurea parameetrina antud täisarvu paarsust
+# Kasutamine: ./paarsus 3
+
+if [ $# -ne 1 ]
+then
+    echo "Käivita see skript koos arvuga mille paarsus soovid kontrollida. Näiteks: ./paarsus 3"
+    exit 1
+fi
+
+jaak=`expr $1 % 2`
+if [ $jaak -eq 0 ]
+then
+    echo "Antud arv on paaris"
+else
+    echo "Antud arv on paaritu"
+fi
