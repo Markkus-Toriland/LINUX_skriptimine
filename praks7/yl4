@@ -1,0 +1,15 @@
+#!/bin/bash
+# Skript väljastab kolmnurga: igas reas on nii mitu tärni, kui suur on rea number
+echo -n "Sisesta ridade arv: "
+read read_arv
+echo ""
+
+for (( rida = 1; rida <= read_arv; rida++ ))
+do
+    echo -n "$rida. "
+    for (( t = 1; t <= rida; t++ ))
+    do
+        echo -n "* "
+    done
+    echo ""
+done
