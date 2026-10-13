@@ -1,0 +1,10 @@
+#!/bin/bash
+# Skript väljastab kasutajale tänase kuupäeva, kellaaja ja jooksva kuu kalendri
+
+echo
+echo "Today is $(date +"%A, %B %d, %Y")"
+echo "Time is $(date +"%H:%M")"
+echo
+date +"Calendar of %B %Y"
+# cal esimene rida on kuu nimi - selle jätame ära, sest kirjutasime selle ise
+cal | tail -n +2
