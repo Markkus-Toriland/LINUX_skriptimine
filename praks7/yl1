@@ -1,0 +1,11 @@
+#!/bin/bash
+# Skript väljastab sisseehitatud tsüklitega 5 rida, igas reas 5 tärni ning rea number
+for (( rida = 1; rida <= 5; rida++ ))
+do
+    echo -n "$rida. "
+    for (( t = 1; t <= 5; t++ ))
+    do
+        echo -n "* "
+    done
+    echo ""
+done
