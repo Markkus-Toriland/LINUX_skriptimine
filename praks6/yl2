@@ -1,0 +1,24 @@
+#!/bin/bash
+# Skript arvutab kasutaja sisestatud täisarvu numbrite summa while-tsükliga
+echo -n "Sisesta suvaline täisarv: "
+read arv
+
+mark=1
+jaak=$arv
+# negatiivse arvu korral arvutame absoluutväärtuse numbrite summa ja paneme märgi tagasi
+if [ $jaak -lt 0 ]
+then
+    mark=-1
+    jaak=$(( -jaak ))
+fi
+
+summa=0
+while [ $jaak -gt 0 ]
+do
+    number=$((jaak % 10))
+    summa=$((summa + number))
+    jaak=$((jaak / 10))
+done
+summa=$((summa * mark))
+
+echo "Arvu $arv numbrite summa on $summa"
