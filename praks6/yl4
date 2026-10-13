@@ -1,0 +1,25 @@
+#!/bin/bash
+# Skript kontrollib, kas kasutaja sisestatud arv on algarv
+# Jagame arvu järjest jagajatega alates 2-st, kuni arv jagub täielikult.
+# Kui esimene jagaja, millega arv jagub, on arv ise, siis on tegemist algarvuga.
+echo -n "Sisesta suvaline arv: "
+read arv
+
+if [ $arv -lt 2 ]
+then
+    echo "$arv - ei ole algarv"
+    exit 0
+fi
+
+jagaja=2
+while [ $((arv % jagaja)) -ne 0 ]
+do
+    jagaja=$((jagaja + 1))
+done
+
+if [ $jagaja -eq $arv ]
+then
+    echo "$arv - on algarv"
+else
+    echo "$arv - ei ole algarv"
+fi
