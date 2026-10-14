@@ -1,0 +1,32 @@
+#!/bin/bash
+# Ülesanne 1: loob parameetrina antud nimega kasutaja (ilma paroolita).
+# Kasutajale luuakse kodukataloog /home/kasutajanimi koos /etc/skel peidetud failidega.
+# Kasutamine: sudo ./lisa_kasutaja kasutajanimi
+
+if [ $# -ne 1 ]
+then
+    echo "Kasutamine: $0 kasutajanimi"
+    exit 1
+fi
+
+kasutaja="$1"
+
+if id "$kasutaja" > /dev/null 2>&1
+then
+    echo "Kasutaja $kasutaja on juba olemas."
+    exit 2
+fi
+
+# -m loob kodukataloogi ja kopeerib sinna /etc/skel sisu (.bashrc, .profile, .bash_logout)
+# -d määrab kodukataloogi asukoha, -s määrab kooriku
+useradd -m -d "/home/$kasutaja" -s /bin/bash "$kasutaja"
+if [ $? -eq 0 ]
+then
+    echo "Kasutaja $kasutaja on lisatud:"
+    grep "^$kasutaja:" /etc/passwd
+    grep "^$kasutaja:" /etc/shadow
+    ls -la "/home/$kasutaja"
+else
+    echo "Kasutaja $kasutaja lisamine ebaõnnestus."
+    exit 3
+fi
