@@ -1,0 +1,67 @@
+
+===== 1) Lihtne varukoopia .tar.zst =====
+total 4
+-rw-rw-r-- 1 user user 252 Oct 14 10:47 src_2026-10-14_10-47-02.tar.zst
+
+===== 2) Arhiivi kontrollimine =====
+src/
+src/imgs/
+src/imgs/b.jpg
+src/docs/
+src/docs/notes.md
+
+===== 3) Varukoopia suurus =====
+4.0K
+
+===== 4) Ainult 3 viimast koopiat (teen 5 koopiat) =====
+Enne: 6 faili
+Pärast: 3 faili
+src_2026-10-14_10-47-08.tar.zst
+src_2026-10-14_10-47-07.tar.zst
+src_2026-10-14_10-47-06.tar.zst
+
+===== 5) Failide välistamine (*.jpg ja bin) =====
+src/
+src/imgs/
+src/docs/
+src/docs/notes.md
+src/docs/a.txt
+
+===== 6) Kuiv jooks - uut arhiivi ei teki =====
+drwxrwxr-x user/user         0 2026-10-14 10:47 src/
+drwxrwxr-x user/user         0 2026-10-14 10:47 src/imgs/
+-rw-rw-r-- user/user         5 2026-10-14 10:47 src/imgs/b.jpg
+drwxrwxr-x user/user         0 2026-10-14 10:47 src/docs/
+-rw-rw-r-- user/user         9 2026-10-14 10:47 src/docs/notes.md
+-rw-rw-r-- user/user         9 2026-10-14 10:47 src/docs/a.txt
+drwxrwxr-x user/user         0 2026-10-14 10:47 src/bin/
+-rw-rw-r-- user/user        21 2026-10-14 10:47 src/bin/run.sh
+Faile backup kaustas enne: 4, pärast: 4
+
+===== 7) Logimine =====
+[ 2026-10-14 10:47:08 ] BACKUP START
+[ 2026-10-14 10:47:08 ] BACKUP END
+
+===== 8) Vaba ruumi kontroll =====
+Kausta suurus: 44 B, vaba ruum: 28871294976 B
+Ruumi piisab - varundus võib alata.
+
+===== 9) SHA-256 kontrollsumma =====
+c5234a76d256941e10135c75f2bcf9afdfbfa3ee7b05df75728efdfdecb100f8  src_2026-10-14_10-47-08.tar.zst
+src_2026-10-14_10-47-08.tar.zst: OK
+
+===== 10) Erinevad kompressorid =====
+-rw-rw-r-- 1 user user 305 Oct 14 10:47 /home/user/praks2/backup/src_kompr.tar.gz
+-rw-rw-r-- 1 user user 336 Oct 14 10:47 /home/user/praks2/backup/src_kompr.tar.xz
+-rw-rw-r-- 1 user user 252 Oct 14 10:47 /home/user/praks2/backup/src_kompr.tar.zst
+
+===== 11) .backupignore kasutamine =====
+imgs
+*.jpg
+src/
+src/.backupignore
+src/docs/
+src/docs/notes.md
+src/docs/a.txt
+src/bin/
+src/bin/run.sh
