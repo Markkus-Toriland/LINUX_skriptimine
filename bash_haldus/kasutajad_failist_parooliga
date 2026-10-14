@@ -1,0 +1,24 @@
+#!/bin/bash
+# Ülesanne 3: loeb failist read kujul kasutajanimi:parool, lisab kasutaja
+# (lisa_kasutaja skripti abil) ja määrab talle parooli (chpasswd krüpteerib parooli shadow faili).
+# Kasutamine: sudo ./kasutajad_failist_parooliga kasutajad_paroolid
+
+if [ $# -ne 1 ] || [ ! -f "$1" ]
+then
+    echo "Kasutamine: $0 fail_kujul_kasutaja:parool"
+    exit 1
+fi
+
+skripti_kaust="$(cd "$(dirname "$0")" && pwd)"
+
+while IFS=: read -r kasutaja parool || [ -n "$kasutaja" ]
+do
+    if [ -z "$kasutaja" ]
+    then
+        continue
+    fi
+    bash "$skripti_kaust/lisa_kasutaja" "$kasutaja" > /dev/null
+    echo "$kasutaja:$parool" | chpasswd
+    echo "Kasutaja $kasutaja lisatud parooliga."
+    grep "^$kasutaja:" /etc/shadow
+done < "$1"
