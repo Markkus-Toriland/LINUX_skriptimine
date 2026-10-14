@@ -21,6 +21,7 @@ Testfailid: `kasutajad`, `kasutajad_paroolid`, `kasutajad2` + `paroolid2`, `kasu
 - `kodukataloogide_varundus.sh` - kõigi `/home` kodukataloogide varundamine kujul `kasutaja.PP.KK.AAAA.tar.gz` kataloogi `/home_bcp`
 - `backup_sammud.sh` - praktikumi sammud 1-11 (zstd arhiiv, kontroll, suurus, rotatsioon, välistused, kuiv jooks, logimine, vaba ruum, SHA-256, kompressorid, `.backupignore`)
 - `backupexec.sh` - samm 12: kõik eelnev ühes skriptis (`mktemp` + `trap`, kontrollsumma, logi, kompressori valik, `-n` kuiv jooks)
+- `sha256_praktika.sh` - SHA-256 kontrollsumma mini-praktikum: `demo.txt` OK / FAILED, kontroll vales kaustas, uusima arhiivi `.sha256` ja kõigi arhiivide `checksums.txt` (väljund failis `sha256_praktika.log`)
 
 ## Teenused (teenused/)
 
