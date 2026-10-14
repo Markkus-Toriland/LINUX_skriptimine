@@ -1,0 +1,44 @@
+#!/bin/bash
+# Ülesanded 5 ja 6: lisab failis olevad kasutajad, genereerib igaühele 8-tähelise parooli (pwgen)
+# ja salvestab kasutaja:parool paarid faili loodud_kasutajad_paroolidega.
+# Skripti tohib käivitada ainult root (mitte sudo kaudu).
+# Kasutamine (root): ./kasutajad_genereeritud_parooliga kasutajad
+
+# Ülesanne 6: ainult root kasutaja; sudo kaudu käivitamisel on muutuja SUDO_USER olemas
+if [ "$(id -u)" -ne 0 ] || [ -n "$SUDO_USER" ]
+then
+    echo "Viga: seda skripti võib käivitada ainult root kasutaja (sudo kaudu käivitamine on keelatud)."
+    exit 1
+fi
+
+if [ $# -ne 1 ] || [ ! -f "$1" ]
+then
+    echo "Kasutamine: $0 kasutajate_fail"
+    exit 1
+fi
+
+# kui pwgen puudub, paigaldame selle
+if ! command -v pwgen > /dev/null
+then
+    apt-get install -y pwgen > /dev/null
+fi
+
+logifail="$(cd "$(dirname "$0")" && pwd)/loodud_kasutajad_paroolidega"
+
+while read -r kasutaja || [ -n "$kasutaja" ]
+do
+    if [ -z "$kasutaja" ]
+    then
+        continue
+    fi
+    if id "$kasutaja" > /dev/null 2>&1
+    then
+        echo "Kasutaja $kasutaja on juba olemas - jätan vahele."
+        continue
+    fi
+    parool=$(pwgen -A -0 8 1)        # 8 sümbolit, ainult väiketähed
+    useradd -m -d "/home/$kasutaja" -s /bin/bash "$kasutaja"
+    echo "$kasutaja:$parool" | chpasswd
+    echo "$kasutaja:$parool" >> "$logifail"
+    echo "Kasutaja $kasutaja lisatud, parool salvestatud faili $(basename "$logifail")."
+done < "$1"
