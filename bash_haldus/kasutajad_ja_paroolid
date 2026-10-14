@@ -1,0 +1,29 @@
+#!/bin/bash
+# Ülesanne 4: kasutajad ja paroolid on kahes eraldi failis (sama rea number = sama kasutaja).
+# Kõik vajalik on selle skripti sees, teisi skripte välja ei kutsuta.
+# Kasutamine: sudo ./kasutajad_ja_paroolid kasutajad paroolid
+
+if [ $# -ne 2 ] || [ ! -f "$1" ] || [ ! -f "$2" ]
+then
+    echo "Kasutamine: $0 kasutajate_fail paroolide_fail"
+    exit 1
+fi
+
+# fail 1 loetakse failikirjeldaja 3 ja fail 2 failikirjeldaja 4 kaudu, et lugeda neid paralleelselt
+while read -r kasutaja <&3 || [ -n "$kasutaja" ]
+do
+    read -r parool <&4
+    if [ -z "$kasutaja" ]
+    then
+        continue
+    fi
+    if id "$kasutaja" > /dev/null 2>&1
+    then
+        echo "Kasutaja $kasutaja on juba olemas - jätan vahele."
+        continue
+    fi
+    useradd -m -d "/home/$kasutaja" -s /bin/bash "$kasutaja"
+    echo "$kasutaja:$parool" | chpasswd
+    echo "Kasutaja $kasutaja lisatud parooliga."
+    grep "^$kasutaja:" /etc/shadow
+done 3< "$1" 4< "$2"
