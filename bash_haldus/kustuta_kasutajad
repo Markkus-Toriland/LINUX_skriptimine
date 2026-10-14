@@ -1,0 +1,19 @@
+#!/bin/bash
+# Abiskript: kustutab failis loetletud kasutajad koos kodukataloogidega (testide kordamiseks).
+# Rea kuju võib olla "kasutaja" või "kasutaja:parool".
+# Kasutamine: sudo ./kustuta_kasutajad kasutajad
+
+if [ $# -ne 1 ] || [ ! -f "$1" ]
+then
+    echo "Kasutamine: $0 kasutajate_fail"
+    exit 1
+fi
+
+while IFS=: read -r kasutaja parool || [ -n "$kasutaja" ]
+do
+    if [ -n "$kasutaja" ] && id "$kasutaja" > /dev/null 2>&1
+    then
+        userdel -r "$kasutaja" 2> /dev/null
+        echo "Kasutaja $kasutaja kustutatud."
+    fi
+done < "$1"
