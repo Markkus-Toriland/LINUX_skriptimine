@@ -1,0 +1,21 @@
+#!/bin/bash
+# Ülesanne 2: loeb parameetrina antud failist kasutajanimed (üks nimi reas)
+# ja kutsub iga nime jaoks välja skripti lisa_kasutaja.
+# Kasutamine: sudo ./kasutajad_failist kasutajad
+
+if [ $# -ne 1 ] || [ ! -f "$1" ]
+then
+    echo "Kasutamine: $0 kasutajate_fail"
+    exit 1
+fi
+
+skripti_kaust="$(cd "$(dirname "$0")" && pwd)"
+
+# || [ -n "$kasutaja" ] - loeb ka viimase rea, mille lõpus reavahetust pole
+while read -r kasutaja || [ -n "$kasutaja" ]
+do
+    if [ -n "$kasutaja" ]
+    then
+        bash "$skripti_kaust/lisa_kasutaja" "$kasutaja"
+    fi
+done < "$1"
