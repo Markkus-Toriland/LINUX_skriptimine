@@ -1,0 +1,45 @@
+
+===== 1) Loon väikese faili ja arvutan kontrollsumma =====
+5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03  demo.txt
+
+===== 2) Kontroll - peab tulema OK =====
+demo.txt: OK
+
+===== 3) Rikun faili (echo x >> demo.txt) - peab tulema FAILED =====
+demo.txt: FAILED
+sha256sum: WARNING: 1 computed checksum did NOT match
+olekukood: 1
+037e34ba10c9023aea2870695a50b2979fbc70ec4f0473e507099a30294de0e9  demo.txt
+
+===== 4) Kontroll vales kaustas - faili ei leita =====
+sha256sum: demo.txt: No such file or directory
+demo.txt: FAILED open or read
+sha256sum: WARNING: 1 listed file could not be read
+olekukood: 1
+
+===== 5) Uusima arhiivi kontrollsumma (failinimi ilma teeta, et kontroll töötaks ka teises masinas) =====
+902ccd71cc00f4eb5d87f54f10e48062823d73b2bba7504f4100487c74aa5889  src_2026-10-14_10-51-25.tar.zst
+
+===== 6) Kontroll hiljem: cd ~/praks2/backup ja sha256sum -c =====
+src_2026-10-14_10-51-25.tar.zst: OK
+
+===== 7) Kõigi arhiivide kontrollsummad failis checksums.txt =====
+9b6c850bd2eb9737c5fa18d3ae90cc568435febe9f529c6339c5e4ec4e7c0e77  ./src_kompr.tar.xz
+902ccd71cc00f4eb5d87f54f10e48062823d73b2bba7504f4100487c74aa5889  ./src_2026-10-14_10-51-23.tar.zst
+001e3fc730c37a43b1db6e5a35fbe427ed0eb033000519ed1b3d92ec2298e6b8  ./src_valistatud.tar.zst
+c610ca0d3455e659a49c8e87228e205b73c34c74a67c5a150bb6d00d4845a11f  ./src_kompr.tar.gz
+b00e48e75cd4e1d804227f1a640da22c2142d0145422575fcd1e654f0f3d808f  ./src_2026-10-14_10-51-26.tar.gz
+902ccd71cc00f4eb5d87f54f10e48062823d73b2bba7504f4100487c74aa5889  ./src_ignore.tar.zst
+902ccd71cc00f4eb5d87f54f10e48062823d73b2bba7504f4100487c74aa5889  ./src_2026-10-14_10-51-25.tar.zst
+c5234a76d256941e10135c75f2bcf9afdfbfa3ee7b05df75728efdfdecb100f8  ./src_logiga.tar.zst
+c5234a76d256941e10135c75f2bcf9afdfbfa3ee7b05df75728efdfdecb100f8  ./src_kompr.tar.zst
+./src_kompr.tar.xz: OK
+./src_2026-10-14_10-51-23.tar.zst: OK
+./src_valistatud.tar.zst: OK
+./src_kompr.tar.gz: OK
+./src_2026-10-14_10-51-26.tar.gz: OK
+./src_ignore.tar.zst: OK
+./src_2026-10-14_10-51-25.tar.zst: OK
+./src_logiga.tar.zst: OK
+./src_kompr.tar.zst: OK
+olekukood: 0
