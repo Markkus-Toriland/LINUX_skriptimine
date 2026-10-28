@@ -1,0 +1,77 @@
+---
+# Lab 4 iseseisev ülesanne: MySQL root kasutajale parooli seadmine
+# Autor: Markkus Toriland
+#
+# Käivitus:   ansible-playbook /root/playbooks/mysql-user.yml
+#
+# Parool küsitakse käivitamisel (vars_prompt), et see ei oleks playbookis
+# ega GitHubis lahtise tekstina. Ülesande järgi on parool qwerty.
+# Pärast seda ei saa root enam ilma paroolita MySQL-i sisse, aga
+# /root/.my.cnf faili abil töötab mysql käsk root-kasutajal ilma parooli trükkimata.
+
+- hosts: webservers
+  become: yes
+  vars_prompt:
+    - name: mysql_root_parool
+      prompt: "MySQL root kasutaja uus parool"
+      private: yes                      # sisestatud parooli ei kuvata
+
+  vars:
+    # MySQL sokli asukoht on Debianis ja CentOS-is erinev
+    mysql_sokkel: "{{ '/var/run/mysqld/mysqld.sock' if ansible_os_family == 'Debian' else '/var/lib/mysql/mysql.sock' }}"
+
+  tasks:
+    # mysql_user moodul vajab kliendiserveris Pythoni MySQL teeki
+    - name: Paigaldame PyMySQL teegi (Debian)
+      apt:
+        name: python3-pymysql
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Paigaldame PyMySQL teegi (CentOS)
+      dnf:
+        name: python3-PyMySQL
+        state: present
+      when: ansible_os_family == "RedHat"
+
+    # Alguses logib root MySQL-i sisse ilma paroolita (Debianis auth_socket,
+    # CentOS-is tühi parool). check_implicit_admin proovib esmalt seda,
+    # järgmistel kordadel kasutatakse juba seatud parooli.
+    - name: Seame MySQL root kasutajale parooli
+      community.mysql.mysql_user:
+        name: root                      # kasutajanimi
+        host: localhost                 # root tohib ühenduda ainult serverist endast
+        plugin: caching_sha2_password   # parooliga autentimine (auth_socket asemel)
+        plugin_auth_string: "{{ mysql_root_parool }}"
+        update_password: always         # parool seatakse igal käivitusel
+        state: present
+        # root-il on juba kõik õigused (ALL PRIVILEGES WITH GRANT OPTION), neid ei muuda
+        login_user: root
+        login_password: "{{ mysql_root_parool }}"
+        login_unix_socket: "{{ mysql_sokkel }}"
+        check_implicit_admin: yes
+      no_log: true                      # parooli ei näidata väljundis
+
+    # Ühenduse andmed root-i kodukataloogi, õigused 0600 - teised ei saa lugeda
+    - name: Salvestame ühenduse andmed faili /root/.my.cnf
+      copy:
+        dest: /root/.my.cnf
+        owner: root
+        group: root
+        mode: "0600"
+        content: |
+          [client]
+          user=root
+          password={{ mysql_root_parool }}
+      no_log: true
+
+    # Kontroll: ilma paroolita sisselogimine peab nüüd ebaõnnestuma
+    - name: Kontrollime, et ilma paroolita sisse ei saa
+      command: mysql --no-defaults -u root -e "SELECT 1"
+      register: ilma_paroolita
+      changed_when: false
+      failed_when: ilma_paroolita.rc == 0     # kui õnnestus, on viga
+
+    - name: Tulemus
+      debug:
+        msg: "Ilma paroolita: {{ ilma_paroolita.stderr }}"
