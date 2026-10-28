@@ -1,0 +1,16 @@
+---
+# Lab 2, samm 1: ainult veebiserveri paigaldamine (hiljem täiendatakse apache2.yml-iks)
+- hosts: webservers
+  tasks:
+    - name: Installeerime apache2 (Debian)
+      apt:
+        name: apache2
+        update_cache: yes
+        state: latest
+      when: ansible_os_family == "Debian"
+
+    - name: Installeerime httpd (CentOS)
+      dnf:
+        name: httpd
+        state: latest
+      when: ansible_os_family == "RedHat"
